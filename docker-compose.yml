@@ -1,7 +1,5 @@
-version: '3.7'
-networks:
-  - redecloud
-  - bridge
+#version: '3.7'
+
 services:
   db:
     image: postgres
@@ -62,15 +60,16 @@ services:
       entrypoint: /cron.sh
       depends_on:
         - db
+
 networks:
-    redecloud:
-      driver: bridge
-      ipam:
-        config:
-          - subnet: 10.10.0.0/16
-    hostnet:
-      external: true
-      name: host
+  redecloud:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.10.0.0/16
+  hostnet:
+    external: true
+    name: host
 
 #volumes:
   #db:
