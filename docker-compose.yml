@@ -17,14 +17,14 @@ services:
       - POSTGRES_PASSWORD=nextcloud
 
   app:
-    image: nextcloud:28
+    image: nextcloud:latest
     networks:
         redecloud:
           ipv4_address: 10.10.0.3
     restart: always
-      #build:
-      #context: .
-      #dockerfile: Dockerfile
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
       - 80:80
       - 443:443
@@ -49,16 +49,16 @@ services:
       - db
 
   cron:
-    image: nextcloud:28
-    networks:
+      image: nextcloud:latest
+      networks:
         redecloud:
           ipv4_address: 10.10.0.5
-    restart: always
-    volumes:
-      - ./nextcloud:/var/www/html
-    entrypoint: /cron.sh
-    depends_on:
-      - db
+      restart: always
+      volumes:
+        - ./nextcloud:/var/www/html
+      entrypoint: /cron.sh
+      depends_on:
+        - db
 networks:
     redecloud:
       driver: bridge
