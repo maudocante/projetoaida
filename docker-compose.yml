@@ -2,7 +2,7 @@
 
 services:
   db:
-    image: postgres
+    image: postgres:16
     volumes:
       - ./db:/var/lib/postgresql/data
 
@@ -21,7 +21,6 @@ services:
     networks:
         redecloud:
           ipv4_address: 10.10.0.3
-        hostnet:
     restart: always
     build:
       context: .
@@ -67,9 +66,9 @@ networks:
     ipam:
       config:
         - subnet: 10.10.0.0/16
-  hostnet:
-    external: true
-    name: host
+ # hostnet:
+  #  external: true
+   # name: host
 
 #volumes:
   #db:
