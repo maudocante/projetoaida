@@ -17,7 +17,7 @@ services:
       - POSTGRES_PASSWORD=nextcloud
 
   app:
-    image: nextcloud:latest
+    image: nextcloud:gabiutente
     networks:
         redecloud:
           ipv4_address: 10.10.0.3
@@ -50,7 +50,7 @@ services:
       - db
 
   cron:
-      image: nextcloud:latest
+      image: nextcloud:gabiutente
       networks:
         redecloud:
           ipv4_address: 10.10.0.5
