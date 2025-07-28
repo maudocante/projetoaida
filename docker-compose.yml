@@ -1,5 +1,3 @@
-#version: '3.7'
-
 services:
   db:
     image: postgres:16
@@ -48,6 +46,20 @@ services:
     depends_on:
       - db
 
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    networks:
+        redecloud:
+          ipv4_address: 10.10.0.6
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
   cron:
       image: nextcloud:gabiutente
       networks:
