@@ -76,13 +76,14 @@ services:
     networks:
       redecloud:
         ipv4_address: 10.10.0.7
+    ports:
+      - "9090:8080"
 
 networks:
   redecloud:
     driver: bridge
     ipam:
       config:
-        - subnet: 10.10.0.0/16
         - subnet: 10.10.0.0/16
  # hostnet:
   #  external: true
