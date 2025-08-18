@@ -1,14 +1,14 @@
+version: '3.8'
+
 services:
   db:
     image: postgres:16
+    restart: always
     volumes:
       - ./db:/var/lib/postgresql/data
-
-networks:
-        redecloud:
-          ipv4_address: 10.10.0.4
-    restart: always
-
+    networks:
+      redecloud:
+        ipv4_address: 10.10.0.4
     environment:
       - POSTGRES_DB=nextcloud
       - POSTGRES_USER=nextcloud
@@ -16,13 +16,10 @@ networks:
 
   app:
     image: nextcloud:gabiutente
-    networks:
-        redecloud:
-          ipv4_address: 10.10.0.3
-    restart: always
     build:
       context: .
       dockerfile: Dockerfile
+    restart: always
     ports:
       - 80:80
       - 443:443
@@ -30,7 +27,9 @@ networks:
       - ./nextcloud:/var/www/html
     extra_hosts:
       - "gabiutente.gw:127.0.0.1"
-    
+    networks:
+      redecloud:
+        ipv4_address: 10.10.0.3
     environment:
       - POSTGRES_HOST=db
       - POSTGRES_DB=nextcloud
@@ -42,47 +41,48 @@ networks:
       - PHP_MEMORY_LIMIT=1G
       - PHP_UPLOAD_LIMIT=4G
       - NEXTCLOUD_UPDATE=1
-
     depends_on:
       - db
 
   pgadmin:
     image: dpage/pgadmin4
     container_name: pgadmin
-    networks:
-        redecloud:
-          ipv4_address: 10.10.0.6
     restart: always
+    ports:
+      - "8080:80"
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com
       PGADMIN_DEFAULT_PASSWORD: admin123
-    ports:
-      - "8080:80"
+    networks:
+      redecloud:
+        ipv4_address: 10.10.0.6
     depends_on:
       - db
+
   cron:
-      image: nextcloud:gabiutente
-      networks:
-        redecloud:
-          ipv4_address: 10.10.0.5
-      restart: always
-      volumes:
-        - ./nextcloud:/var/www/html
-      entrypoint: /cron.sh
-      depends_on:
-        - db
+    image: nextcloud:gabiutente
+    restart: always
+    entrypoint: /cron.sh
+    volumes:
+      - ./nextcloud:/var/www/html
+    networks:
+      redecloud:
+        ipv4_address: 10.10.0.5
+    depends_on:
+      - db
+
   adminer:
     image: adminer
     networks:
-        redecloud:
-          ipv4_address: 10.10.0.7
-
+      redecloud:
+        ipv4_address: 10.10.0.7
 
 networks:
   redecloud:
     driver: bridge
     ipam:
       config:
+        - subnet: 10.10.0.0/16
         - subnet: 10.10.0.0/16
  # hostnet:
   #  external: true
