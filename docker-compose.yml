@@ -1,0 +1,87 @@
+services:
+  db:
+    image: postgres:16
+    volumes:
+      - ./db:/var/lib/postgresql/data
+
+    networks:
+        redecloud:
+          ipv4_address: 10.10.0.4
+    restart: always
+
+    environment:
+      - POSTGRES_DB=nextcloud
+      - POSTGRES_USER=nextcloud
+      - POSTGRES_PASSWORD=nextcloud
+
+  app:
+    image: nextcloud:gabiutente
+    networks:
+        redecloud:
+          ipv4_address: 10.10.0.3
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./nextcloud:/var/www/html
+    extra_hosts:
+      - "gabiutente.gw:127.0.0.1"
+    
+    environment:
+      - POSTGRES_HOST=db
+      - POSTGRES_DB=nextcloud
+      - POSTGRES_USER=nextcloud
+      - POSTGRES_PASSWORD=nextcloud
+      - NEXTCLOUD_ADMIN_USER=admin
+      - NEXTCLOUD_ADMIN_PASSWORD=11223344
+      - NEXTCLOUD_TRUSTED_DOMAINS=gabiutente.gw
+      - PHP_MEMORY_LIMIT=1G
+      - PHP_UPLOAD_LIMIT=4G
+      - NEXTCLOUD_UPDATE=1
+
+    depends_on:
+      - db
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    networks:
+        redecloud:
+          ipv4_address: 10.10.0.6
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+  cron:
+      image: nextcloud:gabiutente
+      networks:
+        redecloud:
+          ipv4_address: 10.10.0.5
+      restart: always
+      volumes:
+        - ./nextcloud:/var/www/html
+      entrypoint: /cron.sh
+      depends_on:
+        - db
+
+networks:
+  redecloud:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.10.0.0/16
+ # hostnet:
+  #  external: true
+   # name: host
+
+#volumes:
+  #db:
+  #nextcloud:
