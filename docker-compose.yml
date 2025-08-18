@@ -4,7 +4,7 @@ services:
     volumes:
       - ./db:/var/lib/postgresql/data
 
-    networks:
+networks:
         redecloud:
           ipv4_address: 10.10.0.4
     restart: always
@@ -71,6 +71,12 @@ services:
       entrypoint: /cron.sh
       depends_on:
         - db
+  adminer:
+    image: adminer
+    networks:
+        redecloud:
+          ipv4_address: 10.10.0.7
+
 
 networks:
   redecloud:
