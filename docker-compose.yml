@@ -7,7 +7,8 @@ services:
     volumes:
       - ./db:/var/lib/postgresql/data
     networks:
-      - redecloud
+      redecloud:
+        ipv4_address: 10.10.0.4
     environment:
       - POSTGRES_DB=nextcloud
       - POSTGRES_USER=nextcloud
@@ -27,7 +28,8 @@ services:
     extra_hosts:
       - "gabiutente.gw:127.0.0.1"
     networks:
-      - redecloud
+      redecloud:
+        ipv4_address: 10.10.0.3
     environment:
       - POSTGRES_HOST=db
       - POSTGRES_DB=nextcloud
@@ -52,7 +54,8 @@ services:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com
       PGADMIN_DEFAULT_PASSWORD: admin123
     networks:
-      - redecloud
+      redecloud:
+        ipv4_address: 10.10.0.6
     depends_on:
       - db
 
@@ -63,14 +66,16 @@ services:
     volumes:
       - ./nextcloud:/var/www/html
     networks:
-      - redecloud
+      redecloud:
+        ipv4_address: 10.10.0.5
     depends_on:
       - db
 
   adminer:
     image: adminer
     networks:
-      - redecloud
+      redecloud:
+        ipv4_address: 10.10.0.7
     ports:
       - "9090:8080"
 
@@ -79,7 +84,7 @@ networks:
     driver: bridge
     ipam:
       config:
-        - subnet: 10.10.0.0/16
+        - subnet: 10.10.0.0/24
  # hostnet:
   #  external: true
    # name: host
