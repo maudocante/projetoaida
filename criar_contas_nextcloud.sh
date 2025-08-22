@@ -1,5 +1,26 @@
 #!/bin/bash
 
+# ============================================================
+# COMO USAR ESTE SCRIPT
+#
+# 1. Torne o script executável:
+#    chmod +x criar_contas_nextcloud.sh
+#
+# 2. Execute o script:
+#    ./criar_contas_nextcloud.sh
+#
+# 3. Siga as instruções interativas para informar os dados do grupo e usuário.
+#
+# 4. Escolha no menu se deseja criar apenas o grupo, apenas o usuário, ambos ou sair.
+#
+# Observação: O script deve ser executado no diretório onde está o docker-compose.yml do Nextcloud.
+#
+# --- NOTA SOBRE CRIAÇÃO DE USUÁRIO ---
+# Se escolher cadastrar apenas o usuário:
+# - Se o grupo informado já existir, o usuário será adicionado a ele.
+# - Se o grupo não existir, ele será criado automaticamente antes de adicionar o usuário.
+# ============================================================
+
 echo "Escolha o que deseja cadastrar primeiro:"
 echo "1) Grupo"
 echo "2) Usuário"
