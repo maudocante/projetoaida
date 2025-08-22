@@ -1,24 +1,35 @@
 #!/bin/bash
 
+GRUPO="GU"
+GRUPO_DISPLAY="Grupo de trabalho"
+
+USUARIO_ANA="ana"
+ANA_DISPLAY="Ana"
+ANA_SENHA="Ana11223344"
+
+USUARIO_SULEIMANE="suleimane"
+SULEIMANE_DISPLAY="Suleimane"
+SULEIMANE_SENHA="Suleimane1122"
+
 criar_grupo() {
-  # Cria o grupo "GU" com display name "Grupo de trabalho"
-  docker-compose exec -u www-data -T app php occ group:add --display-name "Grupo de trabalho" "GU"
+  # Cria o grupo com display name
+  docker-compose exec -u www-data -T app php occ group:add --display-name "$GRUPO_DISPLAY" "$GRUPO"
 }
 
 criar_usuario_ana() {
-  # Cria o usuário 'ana' no grupo "GU" com senha definida
-  docker-compose exec -u www-data -T -e OC_PASS=Ana11223344 app php occ user:add --display-name "Ana" --group "GU" --password-from-env ana
+  # Cria o usuário Ana no grupo com senha definida
+  docker-compose exec -u www-data -T -e OC_PASS="$ANA_SENHA" app php occ user:add --display-name "$ANA_DISPLAY" --group "$GRUPO" --password-from-env "$USUARIO_ANA"
 }
 
 criar_usuario_suleimane() {
-  # Cria o usuário 'suleimane' no grupo "GU" com senha definida
-  docker-compose exec -u www-data -T -e OC_PASS=Suleimane1122 app php occ user:add --display-name "Suleimane" --group "GU" --password-from-env suleimane
+  # Cria o usuário Suleimane no grupo com senha definida
+  docker-compose exec -u www-data -T -e OC_PASS="$SULEIMANE_SENHA" app php occ user:add --display-name "$SULEIMANE_DISPLAY" --group "$GRUPO" --password-from-env "$USUARIO_SULEIMANE"
 }
 
 echo "Escolha uma opção:"
-echo "1) Criar grupo GU"
-echo "2) Criar usuário Ana"
-echo "3) Criar usuário Suleimane"
+echo "1) Criar grupo $GRUPO"
+echo "2) Criar usuário $ANA_DISPLAY"
+echo "3) Criar usuário $SULEIMANE_DISPLAY"
 echo "4) Criar todos"
 read -r -p "Opção: " opcao
 
