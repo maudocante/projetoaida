@@ -23,6 +23,7 @@ echo "Escolha uma opção:"
 echo "1) Criar grupo $GRUPO"
 echo "2) Criar usuário $DISPLAY"
 echo "4) Criar todos"
+echo "0) Sair"
 read -r -p "Opção: " opcao
 
 case "$opcao" in
@@ -32,5 +33,6 @@ case "$opcao" in
     criar_grupo
     criar_usuario
     ;;
+  0) echo "Saindo..."; exit 0 ;;
   *) echo "Opção inválida." ;;
 esac
