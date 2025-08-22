@@ -1,11 +1,11 @@
 #!/bin/bash
 
-GRUPO="GU"
-GRUPO_DISPLAY="Grupo de trabalho"
+GRUPO="GU2"
+GRUPO_DISPLAY="Grupo de trabalho2"
 
-USUARIO="ana"
-DISPLAY="Ana"
-SENHA="Ana11223344"
+USUARIO="ana2"
+DISPLAY="Ana2"
+SENHA="Ana211223344"
 
 
 criar_grupo() {
@@ -22,14 +22,14 @@ criar_usuario() {
 echo "Escolha uma opção:"
 echo "1) Criar grupo $GRUPO"
 echo "2) Criar usuário $DISPLAY"
-echo "4) Criar todos"
+echo "3) Criar todos"
 echo "0) Sair"
 read -r -p "Opção: " opcao
 
 case "$opcao" in
   1) criar_grupo ;;
   2) criar_usuario ;;
-  4)
+  3)
     criar_grupo
     criar_usuario
     ;;
