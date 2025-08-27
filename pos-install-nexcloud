@@ -9,12 +9,10 @@ docker-compose exec --user www-data app php occ config:system:set trusted_domain
 docker-compose exec --user www-data app php occ app:install richdocuments
 
 # Instala o cliente Collabora Online (richdocumentscode)
-docker-compose exec --user www-data app php -d memory_limit=512M ./occ app:install richdocumentscode
-
-# Atualiza todas as apps
-docker-compose exec --user www-data app php -d memory_limit=512M ./occ app:update --all
+docker-compose exec --user www-data app php occ app:install richdocumentscode
 
 # Instala o Nextcloud Talk
 docker-compose exec --user www-data app php occ app:install spreed
 
-
+# Listar trusted_domains
+docker-compose exec --user www-data app php occ config:system:get  trusted_domains

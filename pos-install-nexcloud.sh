@@ -3,6 +3,7 @@ docker-compose exec --user www-data app php occ config:system:set maintenance_wi
 docker-compose exec --user www-data app php occ maintenance:repair --include-expensive
 docker-compose exec --user www-data app php occ db:add-missing-indices
 docker-compose exec --user www-data app php occ config:system:set default_phone_region gw
+docker-compose exec --user www-data app php occ config:system:get trusted_domains 
 docker-compose exec --user www-data app php occ config:system:set trusted_domains 3 --value=192.168.1.200
 
 # Instala o Collabora Online server (como app do Nextcloud)
