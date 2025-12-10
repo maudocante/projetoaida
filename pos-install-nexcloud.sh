@@ -11,10 +11,10 @@ sudo -u www-data php /var/www/nextcloud/occ config:system:set trusted_domains 3 
 sudo -u www-data php -d memory_limit=512M /var/www/nextcloud/occ files:scan --all
 
 # definir memória para 2G no PHP
-cat << 'EOF' > /etc/php/8.2/conf.d/20-custom.ini
-upload_max_filesize = 2G
-post_max_size = 2G
-memory_limit = 2G
+cat << 'EOF' > /etc/php/8.2/apache2/conf.d/20-custom.ini
+upload_max_filesize = 2048M
+post_max_size = 2048M
+memory_limit = 2048M
 EOF
 systemctl restart apache2
 
