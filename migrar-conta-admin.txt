@@ -1,0 +1,13 @@
+
+# Monte o disco antigo e copie apenas a pasta do usuário admin:
+# Você precisa criar o usuário admin com o mesmo nome.
+mkdir /mnt/oldnc
+mount /dev/sdb1 /mnt/oldnc
+cp -a /mnt/oldnc/var/www/nextcloud/data/admin /var/www/nextcloud/data/
+#garantindo permissões corretas:
+chown -R www-data:www-data /var/www/nextcloud/data/admin
+chmod -R 750 /var/www/nextcloud/data/admin
+# Rode o scan de arquivos:
+sudo -u www-data php /var/www/nextcloud/occ files:scan admin
+# ou
+sudo -u www-data php /var/www/nextcloud/occ files:scan --path="admin"

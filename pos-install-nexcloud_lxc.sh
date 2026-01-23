@@ -3,17 +3,19 @@ docker-compose exec --user www-data app php occ config:system:set maintenance_wi
 docker-compose exec --user www-data app php occ maintenance:repair --include-expensive
 docker-compose exec --user www-data app php occ db:add-missing-indices
 docker-compose exec --user www-data app php occ config:system:set default_phone_region gw
+docker-compose exec --user www-data app php occ config:system:get trusted_domains 
 docker-compose exec --user www-data app php occ config:system:set trusted_domains 3 --value=192.168.1.200
-docker-compose exec --user www-data app php occ config:system:set maintenance_window_start --type=integer --value=1
 
 # Instala o Collabora Online server (como app do Nextcloud)
-docker-compose exec --user www-data app php -d memory_limit=512M occ app:install richdocuments
+docker-compose exec --user www-data app php occ app:install richdocuments
 
 # Instala o cliente Collabora Online (richdocumentscode)
-docker-compose exec --user www-data app php occ app:install richdocumentscode
+docker-compose exec --user www-data app php -d memory_limit=512M ./occ app:install richdocumentscode
+
+# Atualiza todas as apps
+docker-compose exec --user www-data app php -d memory_limit=512M ./occ app:update --all
 
 # Instala o Nextcloud Talk
 docker-compose exec --user www-data app php occ app:install spreed
 
-# Listar trusted_domains
-docker-compose exec --user www-data app php occ config:system:get  trusted_domains
+
